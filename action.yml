@@ -1,0 +1,29 @@
+name: 'Set version'
+description: 'Set the version from the current commit or tag'
+inputs:
+  target:
+    description: 'Target for the version, either output or file'
+    required: true
+    default: 'output'
+  source:
+    description: 'Source for the version, either commit or tag'
+    required: true
+    default: 'commit'
+  file_path:
+    description: 'File path in case of file target, relative to the workspace'
+    required: false
+  version_placeholder:
+    description: 'Version placeholder to replace in case of file target'
+    required: false
+    default: '0.0.0+development'
+outputs:
+  version:
+    description: 'The current version'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.target }}
+    - ${{ inputs.source }}
+    - ${{ inputs.file_path }}
+    - ${{ inputs.version_placeholder }}

@@ -1,0 +1,11 @@
+on: [push]
+
+jobs:
+  validate-script:
+    runs-on: ubuntu-latest
+    container:
+      image: koalaman/shellcheck-alpine:latest
+    steps:  
+    - uses: actions/checkout@v2
+    - name: Validate script
+      run: shellcheck version.sh
