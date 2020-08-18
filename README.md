@@ -7,21 +7,17 @@ The result can either be stored in the action's output or be written to a file d
 
 ## Inputs
 
-### `target`
-
-**Required** Target for the version, either output or file. Default `"output"`.
-
 ### `source`
 
 **Required** Source for the version, either commit or tag. Default `"commit"`.
 
 ### `file_path`
 
-File path in case of file target, relative to the workspace.
+File path to replace version in, relative to the workspace.
 
 ### `version_placeholder`
 
-Version placeholder to replace in case of file target. Default `"0.0.0+development"`.
+Version placeholder to replace if file_path is set. Default `"0.0.0+development"`.
 
 ## Outputs
 
@@ -44,7 +40,6 @@ jobs:
       uses: weareyipyip/set-version-action@v1
       id: set-version
       with:
-        target: output
         source: tag
     - name: Build Docker image
       run: 'docker build -t some-image:${{ steps.set-version.outputs.version }}'
@@ -63,7 +58,6 @@ jobs:
       uses: weareyipyip/set-version-action@v1
       id: set-version
       with:
-        target: file
         source: tag
         file_path: package.json
     - name: Build Node package
@@ -83,7 +77,6 @@ jobs:
       uses: weareyipyip/set-version-action@v1
       id: set-version
       with:
-        target: file
         source: commit
         file_path: package.json
     - name: Build Node package

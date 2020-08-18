@@ -30,16 +30,10 @@ get_version() {
   esac
 }
 
-case "$1" in
-  "output")
-    VERSION="$(get_version "$2")" || exit 1
-    echo "::set-output name=version::$VERSION"
-    ;;
-  "file")
-    VERSION="$(get_version "$2")" || exit 1
-    sed -i "s/$4/$VERSION/g" "$GITHUB_WORKSPACE/$3"
-    ;;
-  *)
-    exit_error "Invalid first argument (must be 'output' or 'file')"
-    ;;
-esac
+VERSION="$(get_version "$1")" || exit 1
+
+if [[ "$2" && "$3" ]]; then
+  sed -i "s/$3/$VERSION/g" "$GITHUB_WORKSPACE/$2"
+fi
+
+echo "::set-output name=version::$VERSION"
