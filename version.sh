@@ -25,10 +25,14 @@ get_version() {
       echo -n "$VERSION"
       ;;
     *)
-      exit_error "Invalid second argument (must be 'commit' or 'tag')"
+      exit_error "Invalid first argument (must be 'commit' or 'tag')"
       ;;
   esac
 }
+
+# $1 - source
+# $2 - file_path
+# $3 - version_placeholder
 
 VERSION="$(get_version "$1")" || exit 1
 

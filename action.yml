@@ -2,19 +2,19 @@ name: 'Set version'
 description: 'Set the version from the current commit or tag'
 inputs:
   source:
-    description: 'Source for the version, either commit or tag'
+    description: 'Source for the version, either `commit` or `tag`'
     required: true
     default: 'commit'
   file_path:
-    description: 'File path to replace version in, relative to the workspace'
+    description: 'File path to write the version to, relative to the workspace'
     required: false
   version_placeholder:
-    description: 'Version placeholder to replace if file_path is set'
+    description: 'Version placeholder to replace with the version if `file_path` is set'
     required: false
     default: '0.0.0+development'
 outputs:
   version:
-    description: 'The current version'
+    description: 'The version'
 runs:
   using: 'docker'
   image: 'Dockerfile'

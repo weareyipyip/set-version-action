@@ -9,21 +9,21 @@ The result can optionally be written to a file directly.
 
 ### `source`
 
-**Required** Source for the version, either commit or tag. Default `"commit"`.
+**Required** Source for the version, either `commit` or `tag`. Default `commit`.
 
 ### `file_path`
 
-File path to replace version in, relative to the workspace.
+File path to write the version to, relative to the workspace.
 
 ### `version_placeholder`
 
-Version placeholder to replace if file_path is set. Default `"0.0.0+development"`.
+Version placeholder to replace with the version if `file_path` is set. Default `0.0.0+development`.
 
 ## Outputs
 
 ### `version`
 
-The current version.
+The version.
 
 ## Example usage
 
@@ -56,7 +56,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Set version
       uses: weareyipyip/set-version-action@v1
-      id: set-version
       with:
         source: tag
         file_path: package.json
@@ -75,7 +74,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Set version
       uses: weareyipyip/set-version-action@v1
-      id: set-version
       with:
         source: commit
         file_path: package.json
