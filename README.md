@@ -1,7 +1,7 @@
 # Set version action
 
 This action sets the version based on either the current commit hash or tag.
-The result can either be stored in the action's output or be written to a file directly.
+The result can optionally be written to a file directly.
 
 **Note:** Tags **MUST** be in one of the following formats or this action will fail: `vMAJOR.MINOR.PATCH` or `vMAJOR.MINOR.PATCH-identifier`.
 
