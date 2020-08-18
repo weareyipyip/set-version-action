@@ -27,7 +27,7 @@ Version placeholder to replace in case of file target. Default `"0.0.0+developme
 
 ### `version`
 
-The current version
+The current version.
 
 ## Example usage
 
@@ -52,7 +52,7 @@ jobs:
 
 ### Build a Node package using the current Git tag
 
-This example directly replaces the version placeholder in `package.json` with the parsed version.
+This example directly replaces the version placeholder in `package.json` with the parsed version. The string `0.0.0+development` will be replaced in the specified `target_file` by default.
 
 ```yaml
 jobs:
@@ -72,8 +72,7 @@ jobs:
 
 ### Build a Node package using the current Git commit
 
-This example directly replaces the version placeholder in `package.json` with the parsed version.
-The commit hash can be used for builds that aren't tagged, e.g. automated test builds.
+This example directly replaces the version placeholder in `package.json` with the parsed version. The string `0.0.0+development` will be replaced in the specified `target_file` by default. The commit hash can be used for builds that aren't tagged, e.g. automated test builds.
 
 ```yaml
 jobs:
