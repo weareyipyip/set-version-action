@@ -37,7 +37,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set version
-      uses: weareyipyip/set-version-action@v1
+      uses: weareyipyip/set-version-action@v2
       id: set-version
       with:
         source: tag
@@ -55,7 +55,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set version
-      uses: weareyipyip/set-version-action@v1
+      uses: weareyipyip/set-version-action@v2
       with:
         source: tag
         file_path: package.json
@@ -73,7 +73,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set version
-      uses: weareyipyip/set-version-action@v1
+      uses: weareyipyip/set-version-action@v2
       with:
         source: commit
         file_path: package.json
