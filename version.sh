@@ -35,8 +35,10 @@ get_version() {
 # $3 - version_placeholder
 
 VERSION="$(get_version "$1")" || exit 1
+echo "Version is $VERSION"
 
 if [[ "$2" && "$3" ]]; then
+  echo "Replacing $3 by $VERSION in $2..."
   sed -i "s/$3/$VERSION/g" "$GITHUB_WORKSPACE/$2"
 fi
 
