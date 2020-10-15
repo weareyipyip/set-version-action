@@ -6,7 +6,7 @@ exit_error() {
 }
 
 parse_tag() {
-  if [[ "$1" =~ ^v[0-9]\.[0-9]\.[0-9](-[0-9A-Za-z\.]+)?$ ]]; then
+  if [[ "$1" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.]+)?$ ]]; then
     echo -n "${1:1}"
   else
     exit_error "Tag must be in format 'vMAJOR.MINOR.PATCH' or 'vMAJOR.MINOR.PATCH-identifier'"
