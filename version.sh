@@ -6,10 +6,15 @@ exit_error() {
 }
 
 parse_tag() {
-  if [[ "$1" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z\.]+)?$ ]]; then
+  # Based on the official RegEx on semver.org with the following changes:
+  # * Added v-prefix
+  # * Removed named capture groups (not supported by Bash)
+  # * Removed non-capturing groups (not supported by Bash)
+  # * Replaced \d by [0-9] (not supported by Bash)
+  if [[ "$1" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?$ ]]; then
     echo -n "${1:1}"
   else
-    exit_error "Tag must be in format 'vMAJOR.MINOR.PATCH' or 'vMAJOR.MINOR.PATCH-identifier'"
+    exit_error "Tag must be in a valid SemVer format (see semver.org) prefixed by a v (e.g. v1.0.5)"
   fi
 }
 
