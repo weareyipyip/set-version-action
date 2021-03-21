@@ -16,9 +16,5 @@ outputs:
   version:
     description: 'The version'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.source }}
-    - ${{ inputs.file_path }}
-    - ${{ inputs.version_placeholder }}
+  using: 'node12'
+  main: 'dist/index.js'
