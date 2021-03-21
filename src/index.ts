@@ -1,7 +1,7 @@
 import { Version } from './version';
 import { info, setOutput, setFailed } from '@actions/core';
 
-export default async function main() {
+export default async function main(): Promise<void> {
     try {
         const version = new Version();
         info(`Version is ${version.value.raw}`);

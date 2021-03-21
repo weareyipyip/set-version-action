@@ -7,13 +7,5 @@ jobs:
     steps:  
       - uses: actions/checkout@v2
       - run: npm ci
-      - run: npm test
-
-  test-action:
-    runs-on: ubuntu-latest
-    name: Test action
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-        with:
-          source: commit
+      - run: npm run lint
+      - run: npm run test
