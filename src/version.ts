@@ -3,7 +3,7 @@ import { getInput } from '@actions/core';
 import { SemVer } from 'semver';
 
 export class Version {
-    value: SemVer;
+    private value: SemVer;
 
     constructor() {
         const source = getInput('source', {required: true});
@@ -17,20 +17,28 @@ export class Version {
         }
     }
 
+    public get raw(): string {
+        return this.value.raw;
+    }
+
     private parseCommit(): SemVer {
         const shortSha = context.sha.substr(0, 7);
         return new SemVer(`0.0.0+${shortSha}`, {loose: false});
     }
     
     private parseTag(): SemVer {
-        if (!context.ref.startsWith('refs/tags')) {
+        const ref = context.ref || '';
+        const tagPrefix = 'refs/tags';
+        const tagWithVPrefix = 'refs/tags/v';
+
+        if (!ref.startsWith(tagPrefix)) {
             throw new Error('Invalid tag: no tag found');
         }
 
-        if (!context.ref.startsWith('refs/tags/v')) {
+        if (!ref.startsWith(tagWithVPrefix)) {
             throw new Error('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
         }
 
-        return new SemVer(context.ref.substr(11), {loose: false});
+        return new SemVer(ref.substr(tagWithVPrefix.length), {loose: false});
     }
 }

@@ -8863,18 +8863,24 @@ class Version {
             throw new Error('Invalid input: source must be commit or tag');
         }
     }
+    get raw() {
+        return this.value.raw;
+    }
     parseCommit() {
         const shortSha = github.context.sha.substr(0, 7);
         return new semver.SemVer(`0.0.0+${shortSha}`, { loose: false });
     }
     parseTag() {
-        if (!github.context.ref.startsWith('refs/tags')) {
+        const ref = github.context.ref || '';
+        const tagPrefix = 'refs/tags';
+        const tagWithVPrefix = 'refs/tags/v';
+        if (!ref.startsWith(tagPrefix)) {
             throw new Error('Invalid tag: no tag found');
         }
-        if (!github.context.ref.startsWith('refs/tags/v')) {
+        if (!ref.startsWith(tagWithVPrefix)) {
             throw new Error('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
         }
-        return new semver.SemVer(github.context.ref.substr(11), { loose: false });
+        return new semver.SemVer(ref.substr(tagWithVPrefix.length), { loose: false });
     }
 }
 
@@ -8894,8 +8900,8 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const version = new Version();
-            (0,core.info)(`Version is ${version.value.raw}`);
-            (0,core.setOutput)('version', version.value.raw);
+            (0,core.info)(`Version is ${version.raw}`);
+            (0,core.setOutput)('version', version.raw);
         }
         catch (error) {
             (0,core.setFailed)(error.message);

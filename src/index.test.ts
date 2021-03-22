@@ -26,4 +26,4 @@ test('correctly passes errors', async () => {
     await main();
 
     expect(mockedSetFailed).toBeCalledWith('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
-})
+});

@@ -12,7 +12,7 @@ test('parses commit correctly', () => {
 
     const version = new Version();
 
-    expect(version.value.raw).toEqual('0.0.0+d3a11fc');
+    expect(version.raw).toEqual('0.0.0+d3a11fc');
 });
 
 test('parses tag correctly', () => {
@@ -21,7 +21,7 @@ test('parses tag correctly', () => {
 
     const version = new Version();
 
-    expect(version.value.raw).toEqual('1.2.3');
+    expect(version.raw).toEqual('1.2.3');
 });
 
 test('errors on missing tag', () => {
@@ -31,7 +31,7 @@ test('errors on missing tag', () => {
     const version = () => new Version();
 
     expect(version).toThrow('Invalid tag: no tag found');
-})
+});
 
 test('errors on missing v-prefix in tag', () => {
     mockedGetInput.mockReturnValue('tag');
@@ -48,5 +48,14 @@ test('errors on invalid SemVer tag', () => {
 
     const version = () => new Version();
 
-    expect(version).toThrow('Invalid Version: 1.2')
+    expect(version).toThrow('Invalid Version: 1.2');
+});
+
+test('errors on null ref', () => {
+    mockedGetInput.mockReturnValue('tag');
+    context.ref = null;
+
+    const version = () => new Version();
+
+    expect(version).toThrow('Invalid tag: no tag found');
 });

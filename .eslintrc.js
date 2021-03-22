@@ -10,7 +10,11 @@ module.exports = {
       'plugin:@typescript-eslint/recommended',
       'plugin:jest/recommended'
     ],
+    rules: {
+      semi: 'error',
+      quotes: ['error', 'single'],
+    },
     env: {
         node: true
     }
-}
+};
