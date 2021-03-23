@@ -8828,7 +8828,7 @@ try {
 
 /***/ }),
 
-/***/ 7466:
+/***/ 50:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -8884,7 +8884,9 @@ class Version {
     }
 }
 
-// CONCATENATED MODULE: ./src/index.ts
+// CONCATENATED MODULE: external "fs/promises"
+const promises_namespaceObject = require("fs/promises");;
+// CONCATENATED MODULE: ./src/version-file.ts
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8896,12 +8898,46 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
+class VersionFile {
+    constructor() {
+        this.path = (0,core.getInput)('file_path');
+        this.placeholder = (0,core.getInput)('version_placeholder');
+    }
+    get isSet() {
+        return !!this.path;
+    }
+    replace(version) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const contents = yield (0,promises_namespaceObject.readFile)(this.path, { encoding: 'utf-8' });
+            const newContents = contents.replace(this.placeholder, version.raw);
+            yield (0,promises_namespaceObject.writeFile)(this.path, newContents, { encoding: 'utf-8' });
+        });
+    }
+}
+
+// CONCATENATED MODULE: ./src/index.ts
+var src_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
 function main() {
-    return __awaiter(this, void 0, void 0, function* () {
+    return src_awaiter(this, void 0, void 0, function* () {
         try {
             const version = new Version();
-            (0,core.info)(`Version is ${version.raw}`);
+            const versionFile = new VersionFile();
             (0,core.setOutput)('version', version.raw);
+            (0,core.info)(`Version is ${version.raw}`);
+            if (versionFile.isSet) {
+                yield versionFile.replace(version);
+            }
         }
         catch (error) {
             (0,core.setFailed)(error.message);
@@ -9091,7 +9127,7 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(7466);
+/******/ 	return __nccwpck_require__(50);
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
