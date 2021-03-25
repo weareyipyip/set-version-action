@@ -7,6 +7,19 @@ jobs:
     name: Run ESLint and Jest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
+      - name: Install npm packages
+        run: npm ci
+      - name: Run ESLint
+        run: npm run lint
+      - name: Run Jest
+        run: npm run test
+      - name: Build release
+        run: npm run prepare
+      - name: Check if build has been checked in
+        run: |
+          if status=$(git diff --exit-code dist/index.js) && [ -z "$status" ]; then
+            echo "The 'dist' directory is already up to date!"
+          else 
+            echo "The 'dist' directory is not up to date! Run 'npm run prepare' and commit the changes." 1>&2
+            exit 1
+          fi
