@@ -1,9 +1,10 @@
+name: Run tests
 on: [push]
 
 jobs:
   run-unit-tests:
     runs-on: ubuntu-latest
-    name: Run unit tests
+    name: Run ESLint and Jest
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
