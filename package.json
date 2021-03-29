@@ -1,6 +1,6 @@
 {
   "name": "set-version-action",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "This action sets the version based on either the current commit hash or tag.",
   "main": "src/index.ts",
   "scripts": {
