@@ -22,7 +22,7 @@ export class Version {
     }
 
     private parseCommit(): SemVer {
-        const shortSha = context.sha.substr(0, 7);
+        const shortSha = context.sha.substring(0, 7);
         return new SemVer(`0.0.0+${shortSha}`, {loose: false});
     }
     
@@ -39,6 +39,6 @@ export class Version {
             throw new Error('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
         }
 
-        return new SemVer(ref.substr(tagWithVPrefix.length), {loose: false});
+        return new SemVer(ref.substring(tagWithVPrefix.length), {loose: false});
     }
 }
