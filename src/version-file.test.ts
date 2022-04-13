@@ -1,5 +1,5 @@
 import { Version } from './version';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { getInput } from '@actions/core';
 import { context } from '@actions/github';
 import { VersionFile } from './version-file';

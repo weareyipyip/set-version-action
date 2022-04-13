@@ -1,5 +1,5 @@
 import main from './index';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { context } from '@actions/github';
 import { info, getInput, setOutput, setFailed } from '@actions/core';
 
