@@ -1,61 +1,65 @@
-import { Version } from './version';
-import { mocked } from 'jest-mock';
-import { getInput } from '@actions/core';
-import { context } from '@actions/github';
+import assert from 'node:assert/strict';
+import { beforeEach, mock, test } from 'node:test';
 
-jest.mock('@actions/core');
-const mockedGetInput = mocked(getInput, true);
+const getInput = mock.fn();
+const context = { sha: '', ref: '' as string | null };
+
+mock.module('@actions/core', { namedExports: { getInput } });
+mock.module('@actions/github', { namedExports: { context } });
+
+const { Version } = await import('./version.ts');
+
+beforeEach(() => {
+    getInput.mock.resetCalls();
+    context.sha = '';
+    context.ref = '';
+});
 
 test('parses commit correctly', () => {
-    mockedGetInput.mockReturnValue('commit');
+    getInput.mock.mockImplementation(() => 'commit');
     context.sha = 'd3a11fc981180bb0e52eff3f3e1e646a55d06120';
 
     const version = new Version();
 
-    expect(version.raw).toEqual('0.0.0+d3a11fc');
+    assert.equal(version.raw, '0.0.0+d3a11fc');
 });
 
 test('parses tag correctly', () => {
-    mockedGetInput.mockReturnValue('tag');
+    getInput.mock.mockImplementation(() => 'tag');
     context.ref = 'refs/tags/v1.2.3';
 
     const version = new Version();
 
-    expect(version.raw).toEqual('1.2.3');
+    assert.equal(version.raw, '1.2.3');
 });
 
 test('errors on missing tag', () => {
-    mockedGetInput.mockReturnValue('tag');
+    getInput.mock.mockImplementation(() => 'tag');
     context.ref = 'refs/branches/invalid';
 
-    const version = () => new Version();
-
-    expect(version).toThrow('Invalid tag: no tag found');
+    assert.throws(() => new Version(), /Invalid tag: no tag found/);
 });
 
 test('errors on missing v-prefix in tag', () => {
-    mockedGetInput.mockReturnValue('tag');
+    getInput.mock.mockImplementation(() => 'tag');
     context.ref = 'refs/tags/1.2.3';
 
-    const version = () => new Version();
-
-    expect(version).toThrow('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
+    assert.throws(
+        () => new Version(),
+        /Invalid tag: tag must be prefixed by a v \(e\.g\. v1\.0\.5\)/,
+    );
 });
 
 test('errors on invalid SemVer tag', () => {
-    mockedGetInput.mockReturnValue('tag');
+    getInput.mock.mockImplementation(() => 'tag');
     context.ref = 'refs/tags/v1.2';
 
-    const version = () => new Version();
-
-    expect(version).toThrow('Invalid Version: 1.2');
+    assert.throws(() => new Version(), /Invalid Version: 1\.2/);
 });
 
 test('errors on null ref', () => {
-    mockedGetInput.mockReturnValue('tag');
+    getInput.mock.mockImplementation(() => 'tag');
     context.ref = null;
 
-    const version = () => new Version();
-
-    expect(version).toThrow('Invalid tag: no tag found');
+    assert.throws(() => new Version(), /Invalid tag: no tag found/);
 });
