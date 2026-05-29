@@ -1,6 +1,6 @@
 import { createRequire as __cr } from 'node:module';
 const require = __cr(import.meta.url);
-/*! set-version-action v3.0.0 | Apache-2.0 */
+/*! set-version-action v3.0.1 | Apache-2.0 */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
