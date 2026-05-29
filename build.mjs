@@ -6,7 +6,7 @@ await build({
     outfile: 'dist/index.js',
     bundle: true,
     platform: 'node',
-    target: 'node16',
+    target: 'node24',
     format: 'esm',
     sourcemap: true,
     // Bundled CJS deps (e.g. tunnel) use dynamic require(); provide a real one
