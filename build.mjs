@@ -7,8 +7,13 @@ await build({
     bundle: true,
     platform: 'node',
     target: 'node16',
-    format: 'cjs',
+    format: 'esm',
     sourcemap: true,
+    // Bundled CJS deps (e.g. tunnel) use dynamic require(); provide a real one
+    // for the ESM output so they resolve at runtime instead of throwing.
+    banner: {
+        js: "import { createRequire as __cr } from 'node:module';\nconst require = __cr(import.meta.url);",
+    },
     plugins: [
         license({
             thirdParty: {
