@@ -13,8 +13,8 @@ export default async function main(): Promise<void> {
         if (versionFile.isSet) {
             await versionFile.replace(version);
         }
-    } catch (error: any) {
-        setFailed(error.message);
+    } catch (error: unknown) {
+        setFailed((error as Error).message);
     }
 }
 
