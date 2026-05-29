@@ -1,6 +1,6 @@
-import { Version } from './version';
-import { VersionFile } from './version-file';
-import { info, setOutput, setFailed } from '@actions/core';
+import { info, setFailed, setOutput } from '@actions/core';
+import { Version } from './version.ts';
+import { VersionFile } from './version-file.ts';
 
 export default async function main(): Promise<void> {
     try {
@@ -13,8 +13,8 @@ export default async function main(): Promise<void> {
         if (versionFile.isSet) {
             await versionFile.replace(version);
         }
-    } catch (error) {
-        setFailed(error.message);
+    } catch (error: unknown) {
+        setFailed((error as Error).message);
     }
 }
 

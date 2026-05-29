@@ -1,23 +1,32 @@
-import { Version } from './version';
-import { mocked } from 'jest-mock';
-import { getInput } from '@actions/core';
-import { context } from '@actions/github';
-import { VersionFile } from './version-file';
-import { readFile, writeFile } from 'fs/promises';
+import assert from 'node:assert/strict';
+import { beforeEach, mock, test } from 'node:test';
+import { isDeepStrictEqual } from 'node:util';
 
-jest.mock('@actions/core');
-const mockedGetInput = mocked(getInput, true);
+const getInput = mock.fn();
+const context = { sha: '', ref: '' as string | null };
+const readFile = mock.fn(
+    async () => 'The version is 0.0.0+development for this string',
+);
+const writeFile = mock.fn(async () => {});
 
-jest.mock('fs/promises');
-const mockedReadFile = mocked(readFile, true);
-const mockedWriteFile = mocked(writeFile, true);
+mock.module('@actions/core', { namedExports: { getInput } });
+mock.module('@actions/github', { namedExports: { context } });
+mock.module('fs/promises', { namedExports: { readFile, writeFile } });
 
-mockedReadFile.mockResolvedValue('The version is 0.0.0+development for this string');
-mockedWriteFile.mockResolvedValue();
+const { Version } = await import('./version.ts');
+const { VersionFile } = await import('./version-file.ts');
+
+beforeEach(() => {
+    getInput.mock.resetCalls();
+    writeFile.mock.resetCalls();
+    readFile.mock.resetCalls();
+    context.sha = '';
+    context.ref = '';
+});
 
 test('marks isSet as true if file path is set', () => {
-    mockedGetInput.mockImplementation(name => {
-        switch(name) {
+    getInput.mock.mockImplementation((name: string) => {
+        switch (name) {
             case 'file_path':
                 return '/package.json';
             case 'version_placeholder':
@@ -27,12 +36,12 @@ test('marks isSet as true if file path is set', () => {
 
     const versionFile = new VersionFile();
 
-    expect(versionFile.isSet).toEqual(true);
+    assert.equal(versionFile.isSet, true);
 });
 
 test('marks isSet as false if file path is not set', () => {
-    mockedGetInput.mockImplementation(name => {
-        switch(name) {
+    getInput.mock.mockImplementation((name: string) => {
+        switch (name) {
             case 'file_path':
                 return null;
             case 'version_placeholder':
@@ -42,13 +51,13 @@ test('marks isSet as false if file path is not set', () => {
 
     const versionFile = new VersionFile();
 
-    expect(versionFile.isSet).toEqual(false);
+    assert.equal(versionFile.isSet, false);
 });
 
 test('correctly replaces version placeholder in file', async () => {
     context.sha = 'd3a11fc981180bb0e52eff3f3e1e646a55d06120';
-    mockedGetInput.mockImplementation(name => {
-        switch(name) {
+    getInput.mock.mockImplementation((name: string) => {
+        switch (name) {
             case 'source':
                 return 'commit';
             case 'file_path':
@@ -62,5 +71,13 @@ test('correctly replaces version placeholder in file', async () => {
     const versionFile = new VersionFile();
     await versionFile.replace(version);
 
-    expect(mockedWriteFile).toBeCalledWith('package.json', 'The version is 0.0.0+d3a11fc for this string', {encoding: 'utf-8'});
+    assert.ok(
+        writeFile.mock.calls.some((call) =>
+            isDeepStrictEqual(call.arguments, [
+                'package.json',
+                'The version is 0.0.0+d3a11fc for this string',
+                { encoding: 'utf-8' },
+            ]),
+        ),
+    );
 });

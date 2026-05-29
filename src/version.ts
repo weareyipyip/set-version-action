@@ -1,12 +1,12 @@
-import { context } from '@actions/github';
 import { getInput } from '@actions/core';
+import { context } from '@actions/github';
 import { SemVer } from 'semver';
 
 export class Version {
     private value: SemVer;
 
     constructor() {
-        const source = getInput('source', {required: true});
+        const source = getInput('source', { required: true });
 
         if (source === 'commit') {
             this.value = this.parseCommit();
@@ -23,9 +23,9 @@ export class Version {
 
     private parseCommit(): SemVer {
         const shortSha = context.sha.substring(0, 7);
-        return new SemVer(`0.0.0+${shortSha}`, {loose: false});
+        return new SemVer(`0.0.0+${shortSha}`, { loose: false });
     }
-    
+
     private parseTag(): SemVer {
         const ref = context.ref || '';
         const tagPrefix = 'refs/tags';
@@ -36,9 +36,13 @@ export class Version {
         }
 
         if (!ref.startsWith(tagWithVPrefix)) {
-            throw new Error('Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)');
+            throw new Error(
+                'Invalid tag: tag must be prefixed by a v (e.g. v1.0.5)',
+            );
         }
 
-        return new SemVer(ref.substring(tagWithVPrefix.length), {loose: false});
+        return new SemVer(ref.substring(tagWithVPrefix.length), {
+            loose: false,
+        });
     }
 }
