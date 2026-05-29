@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
         "target": "es2015",
+        "rootDir": "./src",
         "moduleResolution": "node",
+        "ignoreDeprecations": "6.0",
         "esModuleInterop": true
-    }
+    },
+    "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

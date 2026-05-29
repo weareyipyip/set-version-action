@@ -1,5 +1,6 @@
 import { Version } from './version';
 import { VersionFile } from './version-file';
+
 import { info, setOutput, setFailed } from '@actions/core';
 
 export default async function main(): Promise<void> {
@@ -13,7 +14,7 @@ export default async function main(): Promise<void> {
         if (versionFile.isSet) {
             await versionFile.replace(version);
         }
-    } catch (error) {
+    } catch (error: any) {
         setFailed(error.message);
     }
 }

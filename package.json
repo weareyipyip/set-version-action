@@ -4,7 +4,7 @@
   "description": "This action sets the version based on either the current commit hash or tag.",
   "main": "src/index.ts",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "biome check .",
     "prepare": "ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "test": "jest",
     "all": "npm run lint && npm run prepare && npm run test"
@@ -26,15 +26,13 @@
     "semver": "^7.8.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.16",
+    "@swc/core": "^1.15.40",
+    "@swc/jest": "^0.2.39",
     "@types/jest": "^27.5.2",
-    "@types/semver": "^7.8.1",
-    "@typescript-eslint/eslint-plugin": "^5.41.0",
-    "@typescript-eslint/parser": "^5.41.0",
+    "@types/semver": "^7.7.1",
     "@vercel/ncc": "^0.34.0",
-    "eslint": "^8.26.0",
-    "eslint-plugin-jest": "^26.9.0",
     "jest": "^30.4.2",
-    "ts-jest": "^27.1.5",
-    "typescript": "^7.0.0"
+    "typescript": "^6.0.3"
   }
 }
