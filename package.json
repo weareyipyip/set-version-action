@@ -1,38 +1,40 @@
 {
-  "name": "set-version-action",
-  "version": "2.1.0",
-  "description": "This action sets the version based on either the current commit hash or tag.",
-  "main": "src/index.ts",
-  "scripts": {
-    "lint": "biome check .",
-    "prepare": "ncc build src/index.ts -o dist --source-map --license licenses.txt",
-    "test": "jest",
-    "all": "npm run lint && npm run prepare && npm run test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/weareyipyip/set-version-action.git"
-  },
-  "keywords": [],
-  "author": "YipYip",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/weareyipyip/set-version-action/issues"
-  },
-  "homepage": "https://github.com/weareyipyip/set-version-action#readme",
-  "dependencies": {
-    "@actions/core": "^3.0.1",
-    "@actions/github": "^9.1.1",
-    "semver": "^7.8.1"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "@swc/core": "^1.15.40",
-    "@swc/jest": "^0.2.39",
-    "@types/jest": "^27.5.2",
-    "@types/semver": "^7.7.1",
-    "@vercel/ncc": "^0.34.0",
-    "jest": "^30.4.2",
-    "typescript": "^6.0.3"
-  }
+    "name": "set-version-action",
+    "version": "2.1.0",
+    "description": "This action sets the version based on either the current commit hash or tag.",
+    "main": "src/index.ts",
+    "scripts": {
+        "lint": "biome check .",
+        "typecheck": "tsc --noEmit",
+        "prepare": "node build.mjs",
+        "test": "jest",
+        "all": "npm run lint && npm run typecheck && npm run prepare && npm run test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/weareyipyip/set-version-action.git"
+    },
+    "keywords": [],
+    "author": "YipYip",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/weareyipyip/set-version-action/issues"
+    },
+    "homepage": "https://github.com/weareyipyip/set-version-action#readme",
+    "dependencies": {
+        "@actions/core": "^3.0.1",
+        "@actions/github": "^9.1.1",
+        "semver": "^7.8.1"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.4.16",
+        "@swc/core": "^1.15.40",
+        "@swc/jest": "^0.2.39",
+        "@types/jest": "^27.5.2",
+        "@types/semver": "^7.7.1",
+        "esbuild": "0.28.0",
+        "esbuild-plugin-license": "^1.2.3",
+        "jest": "^30.4.2",
+        "typescript": "^6.0.3"
+    }
 }
